@@ -112,6 +112,18 @@ class Main extends PluginBase implements Listener {
           }
         }
       break;
+		case "here":
+			if($p->hasPermission("iprotector") || $p->hasPermission("iprotector.command") || $p->hasPermission("iprotector.command.area") || $p->hasPermission("iprotector.command.area.here")) {
+				$o = "";
+				foreach($this->areas as $area) {
+					if ($area->contains($p->getPosition(), $p->getLevel()->getName()) && $area->getWhitelist() !== null){
+						$o = $o . "Area " . $area->getName() . " can be edited by " . implode(", ", $area->getWhitelist());
+						break;
+					}
+				}
+				if (strlen($o) === 0) $o = "You are not in a known area";
+			}
+			break;
       case "flag":
         if($p->hasPermission("iprotector") || $p->hasPermission("iprotector.command") || $p->hasPermission("iprotector.command.area") || $p->hasPermission("iprotector.command.area.flag")) {
           if(isset($args[1])) {
