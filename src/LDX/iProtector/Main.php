@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace LDX\iProtector;
 
 use pocketmine\command\Command;
@@ -112,7 +114,7 @@ class Main extends PluginBase implements Listener{
 					if(isset($args[1])){
 						if(isset($this->firstPosition[$playerName], $this->secondPosition[$playerName])){
 							if(!isset($this->areas[strtolower($args[1])])){
-								new Area(strtolower($args[1]), array("edit" => true, "god" => false, "touch" => true), $this->firstPosition[$playerName], $this->secondPosition[$playerName], $sender->getLevel()->getName(), [$playerName], $this);
+								new Area(strtolower($args[1]), ["edit" => true, "god" => false, "touch" => true], $this->firstPosition[$playerName], $this->secondPosition[$playerName], $sender->getLevel()->getName(), [$playerName], $this);
 								$this->saveAreas();
 								unset($this->firstPosition[$playerName], $this->secondPosition[$playerName]);
 								$o = "Area created!";
@@ -313,7 +315,7 @@ class Main extends PluginBase implements Listener{
 			$o = false;
 		}
 		foreach($this->areas as $area){
-			if($area->contains($position->asVector3(), $position->getLevel()->getName())){
+			if($area->contains($position, $position->getLevel()->getName())){
 				if($area->getFlag("edit")){
 					$o = false;
 				}

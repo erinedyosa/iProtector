@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace LDX\iProtector;
 
 use pocketmine\level\Level;
@@ -25,8 +27,8 @@ class Area{
 	public function __construct(string $name, array $flags, Vector3 $pos1, Vector3 $pos2, string $levelName, array $whitelist, Main $plugin){
 		$this->name = strtolower($name);
 		$this->flags = $flags;
-		$this->pos1 = new Vector3($pos1[0], $pos1[1], $pos1[2]);
-		$this->pos2 = new Vector3($pos2[0], $pos2[1], $pos2[2]);
+		$this->pos1 = $pos1;
+		$this->pos2 = $pos2;
 		$this->levelName = $levelName;
 		$this->whitelist = $whitelist;
 		$this->plugin = $plugin;
