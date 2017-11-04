@@ -58,7 +58,7 @@ class Main extends PluginBase implements Listener{
 		}
 		$data = json_decode(file_get_contents($this->getDataFolder() . "areas.json"), true);
 		foreach($data as $datum){
-			new Area($datum["name"], $datum["flags"], new Vector3($datum["pos1"]["x"], $datum["pos1"]["y"], $datum["pos1"]["z"]), new Vector3($datum["pos2"]["x"], $datum["pos2"]["y"], $datum["pos2"]["z"]), $datum["level"], $datum["whitelist"], $this);
+			new Area($datum["name"], $datum["flags"], new Vector3($datum["pos1"]["0"], $datum["pos1"]["1"], $datum["pos1"]["2"]), new Vector3($datum["pos2"]["0"], $datum["pos2"]["1"], $datum["pos2"]["2"]), $datum["level"], $datum["whitelist"], $this);
 		}
 		$c = yaml_parse_file($this->getDataFolder() . "config.yml");
 
@@ -268,7 +268,7 @@ class Main extends PluginBase implements Listener{
 	public function saveAreas() : void{
 		$areas = [];
 		foreach($this->areas as $area){
-			$areas[] = ["name" => $area->getName(), "flags" => $area->getFlags(), "pos1" => (array) $area->getFirstPosition(), "pos2" => (array) $area->getSecondPosition(), "level" => $area->getLevelName(), "whitelist" => $area->getWhitelist()];
+			$areas[] = ["name" => $area->getName(), "flags" => $area->getFlags(), "pos1" => [$area->getFirstPosition()->getFloorX(), $area->getFirstPosition()->getFloorY(), $area->getFirstPosition()->getFloorZ()] , "pos2" => [$area->getSecondPosition()->getFloorX(), $area->getSecondPosition()->getFloorY(), $area->getSecondPosition()->getFloorZ()], "level" => $area->getLevelName(), "whitelist" => $area->getWhitelist()];
 		}
 		file_put_contents($this->getDataFolder() . "areas.json", json_encode($areas));
 	}
