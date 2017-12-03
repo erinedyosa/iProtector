@@ -1,9 +1,9 @@
 name: iProtector
 author: LDX
-version: 3.1.0-5
+version: 3.1.0-6
 main: LDX\iProtector\Main
 load: POSTWORLD
-api: [3.0.0-ALPHA7, 3.0.0-ALPHA8, 3.0.0-ALPHA9]
+api: [3.0.0-ALPHA7, 3.0.0-ALPHA8, 3.0.0-ALPHA9, 3.0.0-ALPHA10]
 website: "https://github.com/LDX-MCPE/iProtector"
 commands:
   area:
