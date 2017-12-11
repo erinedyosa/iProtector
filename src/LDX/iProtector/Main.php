@@ -17,6 +17,7 @@ use pocketmine\math\Vector3;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
+use pocketmine\Server;
 
 class Main extends PluginBase implements Listener{
 
@@ -134,12 +135,14 @@ class Main extends PluginBase implements Listener{
 			case "list":
 				if($sender->hasPermission("iprotector") || $sender->hasPermission("iprotector.command") || $sender->hasPermission("iprotector.command.area") || $sender->hasPermission("iprotector.command.area.list")){
 					$o = TextFormat::AQUA . "Areas: " . TextFormat::RESET;
+					$i = 0;
 					foreach($this->areas as $area){
 						if($area->isWhitelisted($playerName)){
 							$o .= $area->getName() . " (" . implode(", ", $area->getWhitelist()) . "), ";
+							$i++;
 						}
 					}
-					if($o === ""){
+					if($i === 0){
 						$o = "There are no areas that you can edit";
 					}
 				}
@@ -166,12 +169,12 @@ class Main extends PluginBase implements Listener{
 				if($sender->hasPermission("iprotector") || $sender->hasPermission("iprotector.command") || $sender->hasPermission("iprotector.command.area") || $sender->hasPermission("iprotector.command.area.tp")){
 					$area = $this->areas[strtolower($args[1])];
 					if($area !== null && $area->isWhitelisted($playerName)){
-						$level = $area->getLevel();
-						if(!isset($level)){
-							$o = TextFormat::RED . "The level " . $area->getLevelName() . " for Area ". $args[1] ." cannot be found";
-						}else{
+						$levelName = $area->getLevelName();
+						if(isset($levelName) && Server::getInstance()->loadLevel($levelName) != false){
 							$o = TextFormat::GREEN . "You are teleporting to Area " . $args[1];
 							$sender->teleport(new Position($area->getFirstPosition()->getX(), $area->getFirstPosition()->getY() + 0.5, $area->getFirstPosition()->getZ(), $area->getLevel()));
+						}else{
+							$o = TextFormat::RED . "The level " . $levelName . " for Area ". $args[1] ." cannot be found";
 						}
 					}else{
 						$o = TextFormat::RED . "The Area " . $args[1] . " could not be found ";
